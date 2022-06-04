@@ -1,41 +1,67 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-}
-
 model User {
-  id       String @id @default(uuid())
-  name     String
-  surname  String
-  email    String @unique
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String? @unique
+  email String @unique
   password String
-  whatsapp String
+  permissions Permissions     @default(user)
+  state userState     @default(incomplete)
+  registedAt DateTime     @default(now())
+  profile Profile?
+  contact Contact?
+  companies Company?
+  gamification GamificationRules?
+  privacy String[]
 
-  UserProfile UserProfile[]
   @@map("users")
 }
 
-model Profile {
-  id   String @id @default(uuid())
-  name String
-
-  UserProfile UserProfile[]
-  @@map("profiles")
+enum Permissions {
+  superadmin
+  admin
+  editor
+  staff
+  user
 }
-
-model UserProfile {
-  id         String  @id @default(uuid())
-  id_user    String
-  user       User    @relation(fields: [id_user], references: [id])
-  id_profile String
-  profile    Profile @relation(fields: [id_profile], references: [id])
-
-  @@map("users_profile")
+enum userState {
+  incomplete
+  active
+  inactive
+  blocked
+}
+type Profile {
+  name  String
+  main_name String
+  surname  String
+  verified Boolean @default(false)
+  profilepic String? @map("profile_pic")
+  coverpic String? @map("cover_pic")
+  bio String?
+  area String[]
+  intereststags String[] @map("interests_tags")
+  job String[]
+}
+type Contact {
+  whatsapp String
+  phone String?
+}
+type Company {
+  owned  String[]
+}
+type GamificationRules {
+  points Int
+  badges String[]
+  trialexpiration DateTime @map("trial_expiration")
 }
