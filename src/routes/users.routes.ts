@@ -1,15 +1,16 @@
 import { Router } from "express";
 
-import { CreateUserController } from "../controllers/CreateUserController";
-import { ListUsersController } from "../controllers/ListUsersController";
+import { createUserController } from "../modules/accounts/useCases/createUser";
+import { listUsersController } from "../modules/accounts/useCases/listUsers";
 
 const usersRoute = Router();
 
-const createUser = new CreateUserController();
-const listUser = new ListUsersController();
+usersRoute.post("/", (req, res) => {
+  return createUserController.handle(req, res);
+});
 
-usersRoute.post("/", createUser.handle);
-
-usersRoute.get("/", listUser.handle);
+usersRoute.get("/", async (req, res) => {
+  return listUsersController.handle(req, res);
+});
 
 export { usersRoute };
