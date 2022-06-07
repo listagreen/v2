@@ -1,3 +1,5 @@
+import { inject, injectable } from "tsyringe";
+
 import { IProfilesRepository } from "../../repositories/IProfilesRepository";
 
 interface IRequest {
@@ -7,13 +9,15 @@ interface IRequest {
   area: string[];
   intereststags: string[];
   job: string[];
-  profilepic?: string;
-  coverpic?: string;
-  userId: string;
+  id: string;
 }
 
+@injectable()
 class CreateProfileUseCase {
-  constructor(private usersRepository: IProfilesRepository) {}
+  constructor(
+    @inject("ProfilesRepository")
+    private usersRepository: IProfilesRepository
+  ) {}
 
   async execute({
     main_name,
@@ -22,9 +26,7 @@ class CreateProfileUseCase {
     job,
     area,
     intereststags,
-    coverpic,
-    profilepic,
-    userId,
+    id,
   }: IRequest): Promise<void> {
     await this.usersRepository.create({
       name,
@@ -33,9 +35,7 @@ class CreateProfileUseCase {
       area,
       intereststags,
       job,
-      profilepic,
-      coverpic,
-      userId,
+      id,
     });
   }
 }

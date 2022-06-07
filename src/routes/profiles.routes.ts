@@ -1,11 +1,21 @@
 import { Router } from "express";
+// import multer from "multer";
 
-import { createProfileController } from "../modules/accounts/useCases/createProfile";
+import { CreateProfileController } from "../modules/accounts/useCases/createProfile/CreateProfileController";
 
 const profilesRoute = Router();
 
-profilesRoute.post("/profile/:id", (req, res) => {
-  return createProfileController.handle(req, res);
-});
+// const upload = multer({
+//   dest: "./tmp",
+// });
+
+const createProfileController = new CreateProfileController();
+
+profilesRoute.post("/profile/:id", createProfileController.handle);
+
+// profilesRoute.post("/profilepic", upload.single("file"), (req, res) => {
+//   const { file } = req;
+//   return res.send();
+// });
 
 export { profilesRoute };

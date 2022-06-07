@@ -5,5 +5,7 @@
     "strict": true,
     "lib": ["ESNext"],
     "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   }
 }

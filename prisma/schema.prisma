@@ -18,13 +18,12 @@ model User {
   permissions  Permissions        @default(user)
   state        userState          @default(incomplete)
   registedAt   DateTime           @default(now())
-  profile      Profile?           @relation(fields: [profileId], references: [id])
+  profile      Profile?
   contact      Contact?
   companies    Company?
   gamification GamificationRules?
   privacy      String[]
 
-  profileId String? @db.ObjectId
   @@map("users")
 }
 
@@ -43,8 +42,7 @@ enum userState {
   blocked
 }
 
-model Profile {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+type Profile {
   main_name     String
   name          String
   surname       String
@@ -55,7 +53,6 @@ model Profile {
   area          String[]
   intereststags String[] @map("interests_tags")
   job           String[]
-  User          User[]
 }
 
 type Contact {
