@@ -11,4 +11,5 @@ class ListUsersUseCase {
     return users;
   }
 }
+
 export { ListUsersUseCase };

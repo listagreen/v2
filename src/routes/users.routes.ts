@@ -10,7 +10,8 @@ usersRoute.post("/", (req, res) => {
 });
 
 usersRoute.get("/", async (req, res) => {
-  return listUsersController.handle(req, res);
+  const all = await listUsersController.handle(req, res);
+  return all;
 });
 
 export { usersRoute };
