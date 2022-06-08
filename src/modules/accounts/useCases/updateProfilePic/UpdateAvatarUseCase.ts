@@ -4,25 +4,25 @@ import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
   user_id: string;
-  pic_file: string;
+  avatar_file: string;
 }
 
 @injectable()
-class UpdateProfilePicUseCase {
+class UpdateAvatarUseCase {
   constructor(
     @inject("UsersRepository")
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ user_id, pic_file }: IRequest): Promise<void> {
+  async execute({ user_id, avatar_file }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
     if (user.profile) {
-      user.profile.profilepic = pic_file;
+      user.profile.profilepic = avatar_file;
     }
 
-    await this.usersRepository.create(user);
+    await this.usersRepository.updateAvatar(user_id, avatar_file);
   }
 }
 
-export { UpdateProfilePicUseCase };
+export { UpdateAvatarUseCase };

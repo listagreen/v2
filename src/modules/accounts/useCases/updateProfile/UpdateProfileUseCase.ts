@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { IProfilesRepository } from "../../repositories/IProfilesRepository";
+import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
   name: string;
@@ -15,20 +15,20 @@ interface IRequest {
 @injectable()
 class CreateProfileUseCase {
   constructor(
-    @inject("ProfilesRepository")
-    private usersRepository: IProfilesRepository
+    @inject("UsersRepository")
+    private usersRepository: IUsersRepository
   ) {}
 
   async execute({
-    main_name,
     name,
     surname,
-    job,
+    main_name,
     area,
     intereststags,
+    job,
     id,
   }: IRequest): Promise<void> {
-    await this.usersRepository.create({
+    await this.usersRepository.updateProfile({
       name,
       surname,
       main_name,
