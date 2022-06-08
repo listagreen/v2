@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 
-import { prisma } from "../../../../services/prismaClient";
+import { prisma } from "../../../../shared/infra/prisma/services/prismaClient";
 import {
   ICreateUserDTO,
   IUpdateProfileDTO,
@@ -17,6 +17,14 @@ class UsersRepository implements IUsersRepository {
     });
 
     return user;
+  }
+
+  async delete(email: string): Promise<void> {
+    await prisma.user.delete({
+      where: {
+        email,
+      },
+    });
   }
 
   async updateProfile({

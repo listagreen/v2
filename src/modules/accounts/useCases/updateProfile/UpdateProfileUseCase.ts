@@ -13,7 +13,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreateProfileUseCase {
+class UpdateProfileUseCase {
   constructor(
     @inject("UsersRepository")
     private usersRepository: IUsersRepository
@@ -40,4 +40,4 @@ class CreateProfileUseCase {
   }
 }
 
-export { CreateProfileUseCase };
+export { UpdateProfileUseCase };

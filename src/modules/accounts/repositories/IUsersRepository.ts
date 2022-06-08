@@ -19,7 +19,8 @@ interface IUsersRepository {
   create({ email, password }: ICreateUserDTO): Promise<User>;
   updateProfile(data: IUpdateProfileDTO): Promise<User>;
   updateContact(id: string, phone: string, whatsapp: string): Promise<User>;
-  updateCompany(id: string, owned: string[]): Promise<User>;
+  updateCompanies(id: string, owned: string[]): Promise<User>;
+  delete(email: string): Promise<void>;
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
   updateAvatar(id: string, avatar_file: any): Promise<void>;

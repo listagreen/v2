@@ -1,10 +1,10 @@
 import { Router } from "express";
 import multer from "multer";
 
-import uploadConfig from "../config/upload";
+import uploadConfig from "../../../../config/upload";
+import { UpdateProfileController } from "../../../../modules/accounts/useCases/updateProfile/UpdateProfileController";
+import { UpdateAvatarController } from "../../../../modules/accounts/useCases/updateProfilePic/UpdateAvatarController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-import { UpdateProfileController } from "../modules/accounts/useCases/updateProfile/UpdateProfileController";
-import { UpdateAvatarController } from "../modules/accounts/useCases/updateProfilePic/UpdateAvatarController";
 
 const profilesRoute = Router();
 

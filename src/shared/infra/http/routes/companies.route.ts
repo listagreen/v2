@@ -1,7 +1,7 @@
 import { Router } from "express";
 
+import { UpdateCompaniesController } from "../../../../modules/accounts/useCases/updateCompanies/UpdateCompaniesController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-import { UpdateCompaniesController } from "../modules/accounts/useCases/updateCompanies/UpdateCompaniesController";
 
 const companiesRoute = Router();
 

@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --poll --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+    "dev": "ts-node-dev --poll --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
+    "seed:admin": "ts-node-dev src/shared/infra/prisma/seed/admin.ts"
   },
   "dependencies": {
     "@prisma/client": "3.14.0",

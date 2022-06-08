@@ -2,9 +2,8 @@ import "reflect-metadata";
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 
-import "./shared/container";
-
-import { AppError } from "./errors/AppError";
+import "../../container";
+import { AppError } from "../../errors/AppError";
 import { router } from "./routes";
 
 const app = express();
@@ -12,7 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(router);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       message: err.message,
@@ -25,4 +25,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(3333, () => console.log("Server started on port 3333"));
+export { app };
