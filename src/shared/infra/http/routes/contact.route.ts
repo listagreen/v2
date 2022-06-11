@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { UpdateContactController } from "../../../../modules/accounts/useCases/updateContact/UpdateContactController";
+import { UpdateContactController } from "../../../../modules/users/useCases/updateContact/UpdateContactController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const contactRoute = Router();

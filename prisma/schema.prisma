@@ -17,43 +17,32 @@ model User {
   password     String
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
+  images       Images?
   profile      Profile?
   contact      Contact?
   companies    Company?
   gamification GamificationRules?
-  permissions  Permissions        @default(user)
-  state        userState          @default(incomplete)
+  permissions  Permissions        @default(USER)
+  state        userState          @default(INCOMPLETE)
+  verified     Boolean            @default(false)
   privacy      String[]
 
   @@map("users")
-}
-
-enum Permissions {
-  superadmin
-  admin
-  editor
-  staff
-  user
-}
-
-enum userState {
-  incomplete
-  active
-  inactive
-  blocked
 }
 
 type Profile {
   main_name     String
   name          String
   surname       String
-  verified      Boolean  @default(false)
-  profilepic    String?  @map("profile_pic")
-  coverpic      String?  @map("cover_pic")
   bio           String?
   area          String[]
   intereststags String[] @map("interests_tags")
   job           String[]
+}
+
+type Images {
+  avatar String?
+  cover  String?
 }
 
 type Contact {
@@ -69,4 +58,19 @@ type GamificationRules {
   points          Int
   badges          String[]
   trialexpiration DateTime @map("trial_expiration")
+}
+
+enum Permissions {
+  SUPERADMIN
+  ADMIN
+  EDITOR
+  STAFF
+  USER
+}
+
+enum userState {
+  INCOMPLETE
+  ACTIVE
+  INACTIVE
+  BLOCKED
 }

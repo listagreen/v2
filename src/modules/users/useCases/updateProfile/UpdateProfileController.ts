@@ -5,7 +5,8 @@ import { UpdateProfileUseCase } from "./UpdateProfileUseCase";
 
 class UpdateProfileController {
   async handle(req: Request, res: Response): Promise<Response> {
-    const { name, surname, main_name, area, intereststags, job } = req.body;
+    const { name, surname, main_name, area, intereststags, job, bio } =
+      req.body;
     const { id } = req.user;
 
     const updateProfileUseCase = container.resolve(UpdateProfileUseCase);
@@ -14,6 +15,7 @@ class UpdateProfileController {
       name,
       surname,
       main_name,
+      bio,
       area,
       intereststags,
       job,

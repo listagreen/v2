@@ -9,7 +9,7 @@ async function seed() {
     data: {
       email: "admin@listagreen.com",
       password,
-      permissions: "superadmin",
+      permissions: "SUPERADMIN",
     },
   });
 

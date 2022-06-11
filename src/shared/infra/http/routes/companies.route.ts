@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { UpdateCompaniesController } from "../../../../modules/accounts/useCases/updateCompanies/UpdateCompaniesController";
+import { UpdateCompaniesController } from "../../../../modules/users/useCases/updateCompanies/UpdateCompaniesController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const companiesRoute = Router();

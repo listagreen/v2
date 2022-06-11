@@ -32,6 +32,7 @@ class UsersRepository implements IUsersRepository {
     name,
     surname,
     main_name,
+    bio,
     area,
     intereststags,
     job,
@@ -45,6 +46,7 @@ class UsersRepository implements IUsersRepository {
           name,
           surname,
           main_name,
+          bio,
           area,
           intereststags,
           job,
@@ -55,17 +57,19 @@ class UsersRepository implements IUsersRepository {
     return profile;
   }
 
-  async updateAvatar(id: string, avatar_file: any): Promise<void> {
-    await prisma.user.update({
-      data: {
-        profile: {
-          profilepic: avatar_file,
-        },
-      },
+  async updateAvatar(id: string, avatar: string): Promise<User> {
+    const profile = await prisma.user.update({
       where: {
         id,
       },
+      data: {
+        images: {
+          avatar,
+        },
+      },
     });
+
+    return profile;
   }
 
   async updateContact(
@@ -103,24 +107,68 @@ class UsersRepository implements IUsersRepository {
     return company;
   }
 
-  async findByEmail(email: string): Promise<User> {
-    const user = await prisma.user.findMany({
+  async updatePermissionsToEditor(id: string): Promise<User> {
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        permissions: "EDITOR",
+      },
+    });
+
+    return user;
+  }
+
+  async verifyUser(id: string): Promise<User> {
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        verified: true,
+      },
+    });
+
+    return user;
+  }
+
+  async unverifyUser(id: string): Promise<User> {
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        verified: false,
+      },
+    });
+
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    return user[0];
+    return user;
   }
 
-  async findById(id: string): Promise<User> {
-    const user = await prisma.user.findMany({
+  async findById(id: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
       where: {
         id,
       },
     });
 
-    return user[0];
+    return user;
+  }
+
+  async list(): Promise<User[]> {
+    const users = await prisma.user.findMany();
+    return users;
   }
 }
 

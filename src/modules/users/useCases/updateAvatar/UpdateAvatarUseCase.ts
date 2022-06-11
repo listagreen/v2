@@ -14,12 +14,8 @@ class UpdateAvatarUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ user_id, avatar_file }: IRequest): Promise<void> {
-    const user = await this.usersRepository.findById(user_id);
-
-    if (user.profile) {
-      user.profile.profilepic = avatar_file;
-    }
+  async execute({ user_id, avatar_file }: IRequest) {
+    await this.usersRepository.findById(user_id);
 
     await this.usersRepository.updateAvatar(user_id, avatar_file);
   }

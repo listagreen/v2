@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { UsersRepository } from "../../../../modules/accounts/repositories/implementations/UsersRepository";
+import { UsersRepository } from "../../../../modules/users/repositories/implementations/UsersRepository";
 import { AppError } from "../../../errors/AppError";
 
 export async function ensureAdmin(
@@ -13,7 +13,7 @@ export async function ensureAdmin(
   const usersRepository = new UsersRepository();
   const user = await usersRepository.findById(id);
 
-  if (!user.permissions.includes("superadmin")) {
+  if (!user.permissions.includes("SUPERADMIN")) {
     throw new AppError("User isn't admin", 401);
   }
 
