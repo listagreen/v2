@@ -14,7 +14,7 @@ export async function ensureAdmin(
   const user = await usersRepository.findById(id);
 
   if (!user.permissions.includes("SUPERADMIN")) {
-    throw new AppError("User isn't admin", 401);
+    throw new AppError("You dont have permissions to do that!", 401);
   }
 
   return next();

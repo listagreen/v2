@@ -3,9 +3,10 @@ import { User } from "@prisma/client";
 import { prisma } from "../../../../shared/infra/prisma/services/prismaClient";
 import {
   ICreateUserDTO,
+  ICreateUserTokensDTO,
   IUpdateProfileDTO,
-  IUsersRepository,
-} from "../IUsersRepository";
+} from "../../dtos/IUsersDTO";
+import { IUsersRepository } from "../IUsersRepository";
 
 class UsersRepository implements IUsersRepository {
   async create({ email, password }: ICreateUserDTO): Promise<User> {
@@ -17,6 +18,26 @@ class UsersRepository implements IUsersRepository {
     });
 
     return user;
+  }
+
+  async createRefreshToken({
+    userId,
+    refreshToken,
+    expiresDate,
+  }: ICreateUserTokensDTO): Promise<User> {
+    const userToken = prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        userTokens: {
+          refreshToken,
+          expiresDate,
+        },
+      },
+    });
+
+    return userToken;
   }
 
   async delete(email: string): Promise<void> {
@@ -105,19 +126,6 @@ class UsersRepository implements IUsersRepository {
     });
 
     return company;
-  }
-
-  async updatePermissionsToEditor(id: string): Promise<User> {
-    const user = await prisma.user.update({
-      where: {
-        id,
-      },
-      data: {
-        permissions: "EDITOR",
-      },
-    });
-
-    return user;
   }
 
   async verifyUser(id: string): Promise<User> {

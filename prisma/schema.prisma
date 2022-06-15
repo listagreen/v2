@@ -17,6 +17,7 @@ model User {
   password     String
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
+  userTokens   UserTokens?
   images       Images?
   profile      Profile?
   contact      Contact?
@@ -28,6 +29,12 @@ model User {
   privacy      String[]
 
   @@map("users")
+}
+
+type UserTokens {
+  refreshToken String
+  createdAt    DateTime @default(now())
+  expiresDate  DateTime
 }
 
 type Profile {

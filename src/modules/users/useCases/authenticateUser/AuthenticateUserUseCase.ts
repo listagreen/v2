@@ -1,4 +1,5 @@
 import { compare } from "bcryptjs";
+import { addDays } from "date-fns";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
@@ -14,8 +15,10 @@ interface IRequest {
 interface IResponse {
   user: {
     email: string;
+    permissions: string;
   };
   token: string;
+  refresh_token: string;
 }
 
 @injectable()
@@ -24,9 +27,15 @@ class AuthenticateUserUseCase {
     @inject("UsersRepository")
     private usersRepository: IUsersRepository
   ) {}
+
   async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
-    const { secret_token, expires_in_token } = auth;
+    const {
+      secret_token,
+      expires_in_token,
+      secret_refresh_token,
+      expires_in_refresh_token,
+    } = auth;
 
     if (!user) {
       throw new AppError("Email or password incorrect!");
@@ -43,11 +52,26 @@ class AuthenticateUserUseCase {
       expiresIn: expires_in_token,
     });
 
+    const refresh_token = sign({ email }, secret_refresh_token, {
+      subject: user.id,
+      expiresIn: expires_in_refresh_token,
+    });
+
+    const refresh_token_expires_date = addDays(new Date(), 30);
+
+    await this.usersRepository.createRefreshToken({
+      userId: user.id,
+      refreshToken: refresh_token,
+      expiresDate: refresh_token_expires_date,
+    });
+
     const tokenResposne: IResponse = {
-      token,
       user: {
         email: user.email,
+        permissions: user.permissions,
       },
+      token,
+      refresh_token,
     };
 
     return tokenResposne;
