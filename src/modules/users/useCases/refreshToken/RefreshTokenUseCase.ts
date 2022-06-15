@@ -29,8 +29,12 @@ export class RefreshTokenUseCase {
 
     const user = await this.usersRepository.findById(user_id);
 
+    if (!user) {
+      throw new AppError("User not found.", 401);
+    }
+
     if (!user.userTokens) {
-      throw new AppError("Refresh Token does not exists!");
+      throw new AppError("Refresh token is required!", 401);
     }
 
     const refresh_token = sign({ email }, auth.secret_refresh_token, {

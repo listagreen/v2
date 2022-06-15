@@ -6,6 +6,7 @@ import "express-async-errors";
 
 import "../../container";
 import { AppError } from "../../errors/AppError";
+import { AuthError } from "../../errors/AuthError";
 import { router } from "./routes";
 
 const app = express();
@@ -20,6 +21,13 @@ app.use(router);
 app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
+      message: err.message,
+    });
+  }
+
+  if (err instanceof AuthError) {
+    return res.status(err.statusCode).json({
+      code: err.errorCode,
       message: err.message,
     });
   }
