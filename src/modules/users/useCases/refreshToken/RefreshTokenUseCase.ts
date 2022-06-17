@@ -23,7 +23,7 @@ export class RefreshTokenUseCase {
     private usersRepository: IUsersRepository
   ) {}
   async execute(token: string): Promise<ITokenResponse> {
-    const { sub, email } = verify(token, auth.secret_refresh_token) as IPayload;
+    const { sub, email } = verify(token, auth.secret_token) as IPayload;
 
     const user_id = sub;
 
